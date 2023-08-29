@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.users;
 import com.example.demo.repository.usersRepo;
+import com.example.demo.response.response;
 
 @CrossOrigin
 @RestController
@@ -73,4 +75,26 @@ public class userscontroller {
 		response.put("deleted", Boolean.TRUE);
 		return ResponseEntity.ok(response);
 	}
+	
+	
+	//Users Login
+	 @PostMapping("/login")
+	    public ResponseEntity<Object> login(@RequestBody users loginForm) {
+	        String name = loginForm.getName();
+	        String password = loginForm.getPassword();
+
+	        users user = usersRepository.findByEmailAndPassword(name, password);
+	        if (user != null) {
+	            // User authenticated successfully
+	        	return response.responseBuilder("User Login Successfully.", HttpStatus.OK, usersRepository.findByEmailAndPassword(name, password));
+	        	
+	        } else {
+	            // Invalid credentials
+	        	Map<String, String> errorResponse = new HashMap<>();
+	            errorResponse.put("message", "Request User Not Found");
+	            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+	        }
+	    }
+	
+	
 }
