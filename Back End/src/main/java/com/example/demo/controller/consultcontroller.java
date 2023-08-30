@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.consult;
 import com.example.demo.repository.consultRepo;
@@ -55,13 +55,14 @@ public class consultcontroller {
 	public ResponseEntity<consult> updateConsult(@PathVariable Long id, @RequestBody consult consult) {
 		consult consult2 = consultRepository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Consult not exist with id : " + id));
-		consult.setName(consult2.getName());
-		consult.setEmail(consult2.getEmail());
-		consult.setAvailable_dates(consult2.getAvailable_dates());
-		consult.setTime_slot(consult2.getTime_slot());
-		consult.setNic(consult2.getNic());
+		consult2.setName(consult.getName());
+		consult2.setEmail(consult.getEmail());
+		consult2.setStart_time(consult.getStart_time());
+		consult2.setEnd_time(consult.getEnd_time());
+		consult2.setNic(consult.getNic());
+		consult2.setPassword(consult.getPassword());
 
-		consult updateConsult = consultRepository.save(consult);
+		consult updateConsult = consultRepository.save(consult2);
 		return ResponseEntity.ok(updateConsult);
 	}
 
@@ -96,5 +97,22 @@ public class consultcontroller {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
 		}
 	}
+	
+	
+	
+	
+	@PostMapping("/filter-by-start-time")
+    public List<consult> filterByStartTime(@RequestBody Map<String, String> requestBody) {
+        String startTime = requestBody.get("start_time");
+        return consultRepository.findByStartTimeGreaterThanOrEqual(startTime);
+    }
 
+    @PostMapping("/filter-by-end-time")
+    public List<consult> filterByEndTime(@RequestBody Map<String, Integer> requestBody) {
+        Integer endTime = requestBody.get("end_time");
+        return consultRepository.findByEndTimeLessThanOrEqual(endTime);
+    }
 }
+	
+
+

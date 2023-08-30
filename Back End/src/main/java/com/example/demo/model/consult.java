@@ -17,33 +17,31 @@ public class consult {
 
 	@Column(name = "name")
 	private String name;
-	
+
 	@Column(name = "email")
 	private String email;
-	
+
 	@Column(name = "nic")
 	private String nic;
-	
-	@Column(name = "available_dates")
-	private String available_dates;
 
-	@Column(name = "time_slot")
-	private String time_slot;
-	
+	@Column(name = "start_time")
+	private String start_time;
+
+	@Column(name = "end_time")
+	private String end_time;
+
 	@Column(name = "password")
 	private String password;
 
-	
-	
-	public consult(long id, String name, String email, String nic, String available_dates, String time_slot,
+	public consult(long id, String name, String email, String nic, String start_time, String end_time,
 			String password) {
 		super();
 		Id = id;
 		this.name = name;
 		this.email = email;
 		this.nic = nic;
-		this.available_dates = available_dates;
-		this.time_slot = time_slot;
+		this.start_time = start_time;
+		this.end_time = end_time;
 		this.password = password;
 	}
 
@@ -82,20 +80,20 @@ public class consult {
 		this.nic = nic;
 	}
 
-	public String getAvailable_dates() {
-		return available_dates;
+	public String getStart_time() {
+		return start_time;
 	}
 
-	public void setAvailable_dates(String available_dates) {
-		this.available_dates = available_dates;
+	public void setStart_time(String start_time) {
+		this.start_time = start_time;
 	}
 
-	public String getTime_slot() {
-		return time_slot;
+	public String getEnd_time() {
+		return end_time;
 	}
 
-	public void setTime_slot(String time_slot) {
-		this.time_slot = time_slot;
+	public void setEnd_time(String end_time) {
+		this.end_time = end_time;
 	}
 
 	public String getPassword() {
@@ -105,10 +103,5 @@ public class consult {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-	
-	
-	
-	
+
 }
