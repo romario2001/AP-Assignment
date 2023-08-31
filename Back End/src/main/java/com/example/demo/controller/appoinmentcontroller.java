@@ -27,19 +27,19 @@ public class appoinmentcontroller {
 	private appoinmentRepo appoinmentRepo;
 	
 	// create users rest api
-		@PostMapping("/saveconsult")
+		@PostMapping("/saveappoinment")
 		public appoinment createUsers(@RequestBody appoinment appoinment) {
 			return appoinmentRepo.save(appoinment);
 		}
 
 		// get all Users rest api
-		@GetMapping("/getconsult")
+		@GetMapping("/getappoinment")
 		private List<appoinment> getAllConsult() {
 			return appoinmentRepo.findAll();
 		}
 		
 		// delete User rest api
-		@DeleteMapping("/getconsult/{id}")
+		@DeleteMapping("/getappoinment/{id}")
 		public ResponseEntity<Map<String, Boolean>> deleteConsult(@PathVariable Long id) {
 			appoinment appoinment = appoinmentRepo.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException("appoinment not exist with id : " + id));
@@ -49,4 +49,10 @@ public class appoinmentcontroller {
 			response.put("deleted", Boolean.TRUE);
 			return ResponseEntity.ok(response);
 		}
+		
+		 @PostMapping("/consultant-name")
+		    public List<appoinment> filterByCounsultName(@RequestBody Map<String, String> requestBody) {
+		        String CName = requestBody.get("c_name");
+		        return appoinmentRepo.findByCounsultName(CName);
+		    }
 }

@@ -18,4 +18,6 @@ public interface consultRepo extends JpaRepository<consult, Long>{
 
 	    @Query(value = "SELECT * FROM consult WHERE end_time = :endTime", nativeQuery = true)
 	    List<consult> findByEndTimeLessThanOrEqual(@Param("endTime") Integer endTime);
+	    
+	    
 }
